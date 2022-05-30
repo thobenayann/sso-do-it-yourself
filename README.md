@@ -15,4 +15,10 @@ Révision sur les premières [notions](./NOTIONS.md) :
 
 ---
 
-Création d'un docker-compose.yml pour se doter d'un réseau internet « local » (utilisation d'un reverse-proxy et de noms de domaine *.test).
+Création d'un docker-compose.yml pour se doter d'un réseau internet « local » (utilisation d'un reverse-proxy et de noms de domaine *.test).
+
+---
+
+Créer un service pour le serveur central d'authentification (sso-server) => http://sso-server.test
+
+Implémentation rudimentaire avec Express.js

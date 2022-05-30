@@ -33,3 +33,7 @@ Quelque soit le niveau de profondeur
   ```
 
 La partie --experimental-modules permet l'utilisation des modules grâce au fichier mjs
+
+### Si besoin de débugger un container
+
+`docker exec -it <container> bash`

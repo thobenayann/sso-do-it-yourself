@@ -10,8 +10,17 @@ services:
     # On va la créer à la main dans notre dossier server
     build: server
     # OU build: server/Dockerfile
+
+    # J'ai besoin de relié le port 80 (défaut) de ma machine hote
+    # vers le port 3000 de mon container
+    # Sauf que la config de Nginx ne nous permet pas l'écriture classique:
+    # ports:
+    #   - "80:3000"
+
     environment:
       VIRTUAL_HOST: sso-server.test
+      # Avec l'image Nginx que j'utilise je dois écrire :
+      VIRTUAL_PORT: 3000
 
   # Quelques servicces (sites web) "clients" du SSO
   # sso-client1:

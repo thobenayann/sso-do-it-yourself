@@ -1,0 +1,34 @@
+# le yml permet d'utiliser des images venues d'ailleurs,
+# ou des conçues par nous-même grâce à des fichiers Dockerfile
+version: "3"
+
+services:
+  # Service centrale et unique d'authentification (SSO)
+  sso-server:
+    # image: node:18
+    # plutot qu'utiliser une image node:18 "simple"
+    # On va la créer à la main dans notre dossier server
+    build: server
+    # OU build: server/Dockerfile
+    environment:
+      VIRTUAL_HOST: sso-server.test
+
+  # Quelques servicces (sites web) "clients" du SSO
+  # sso-client1:
+
+  adminer:
+    image: adminer:4.8.1
+    environment:
+      VIRTUAL_HOST: adminer.test
+
+  whoami:
+    image: jwilder/whoami
+    environment:
+      VIRTUAL_HOST: whoami.test
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro

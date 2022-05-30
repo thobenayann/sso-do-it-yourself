@@ -22,6 +22,15 @@ services:
       # Avec l'image Nginx que j'utilise je dois écrire :
       VIRTUAL_PORT: 3000
 
+    # Si je modifie la partie server sur ma machine hote
+    # Le volume va permettre de mettre à jour les fichiers dans le container
+    # Attention : le volume va écraser les commandes du Dockerfile
+    # Car la partie ./server va complétement remplacer ce qui a été fait avant
+    # Si je supprime le dossier "nodes_modules" sur ma machine
+    # le programme dans le container n'aura plus ce dossier non plus (même avec le npm i)
+    volumes:
+      - ./server/:/home/node/app
+
   # Quelques servicces (sites web) "clients" du SSO
   # sso-client1:
 

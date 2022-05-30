@@ -22,3 +22,9 @@ Création d'un docker-compose.yml pour se doter d'un réseau internet « local�
 Créer un service pour le serveur central d'authentification (sso-server) => http://sso-server.test
 
 Implémentation rudimentaire avec Express.js
+
+---
+
+Ajout d'un volume sur sso-server pour pouvoir coder sans avoir à re-build l'image sso-server.
+
+Attention : le volume écrase tout le contenu dans le container visé, donc il faut bien avoir `npm install` sur la machine hôte pour injecter le dossier node_modules nécessaire au bon fonctionnement du service (Express.js).

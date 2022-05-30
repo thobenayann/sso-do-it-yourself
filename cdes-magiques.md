@@ -37,3 +37,7 @@ La partie --experimental-modules permet l'utilisation des modules grâce au fich
 ### Si besoin de débugger un container
 
 `docker exec -it <container> bash`
+
+### Si votre image est en cache et que les fichiers ne sont pas mis à jour au rebuild
+
+on peux forcer le rebuild avec `docker compose up --build`

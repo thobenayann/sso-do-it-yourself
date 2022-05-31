@@ -27,9 +27,42 @@ app.use(
   express.static(__dirname + '/public/stylesheets')
 );
 
-app.get('/', function (req, res) {
-  res.render("login")
+// MW gestion des cookies
+app.use((req, res, next) => {
+  req.cookies = {};
+  if(req.headers.cookie) {
+    const cookies = req.headers.cookie;
+
+    const cookiesArray = cookies.split("; ");
+    const parsedCookies = {};
+  
+    for (let cookie of cookiesArray) {
+      const [key, value] = cookie.split("=");
+      parsedCookies[key] = value;
+    }
+  
+    req.cookies = parsedCookies;
+  }
+  next();
 });
+
+app.get('/', function (req, res) {
+  // Objectif : distinguer deux cas :
+  // - soit l'utilisateur est anonyme (pas de cookies de session, soit invalide)
+  // - soit l'utilisateur est connecté (cookie de session valide)
+
+  console.log(">>>>>>", req.cookies);
+
+  if (req.cookies.sso_session) {
+    res.render("logout")
+  } else {
+    res.render("login")
+  }
+});
+
+app.get("/api/session", function(req, res) {
+  res.render("session", { token: req.cookies.sso_session })
+})
 
 // POST method route
 app.post("/api/session/login", function (req, res) {
@@ -44,8 +77,12 @@ app.post("/api/session/login", function (req, res) {
     return;
   }
   if (password === user.password) {
-    res.send(200);
-    console.log(user);
+    res.cookie("sso_session", email, {
+      sameSite: "none",
+      secure: true
+    })
+      // .send(200);
+      .redirect("/api/session");
   } else {
     res.send(500);
   }

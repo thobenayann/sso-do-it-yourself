@@ -54,5 +54,8 @@ html
     window.addEventListener("message", function(e) {
       console.log("évenement reçu : ",e);
       if (!e.data.startsWith("sso_session")) return;
-      document.cookie = e.data;
+      document.cookie = e.data;$
+      // Refresh the SSO iframes to display current SSO view
+      var iframes = document.querySelectorAll('.sso-gateway');
+      Array.from(iframes).forEach(iframe => iframe.src = iframe.src);
     })

@@ -14,3 +14,7 @@
 - Evénement et effets de bord en cascade
 - Middleware
 - Code défensif
+- Sécurité des échanges cross-domain
+  - CORS pour les requetes web
+  - SameSite+Secure+HTTPS pour les cookies
+  - postMessage pour les iframes

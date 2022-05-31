@@ -2,7 +2,16 @@
 
 `sudo nano /etc/hosts`
 
+On peut alors déclarer des noms de domaines sur notre ip 127.0.0.1 en écoute sur le port 80.
+
+Cela va permettre à Nginx proxy de rediriger notre service vers le nom de domaine que l'on configure
+et notamment grâce au la variable d'environnement du docker compose VIRTUAL_HOST
+
 ## Server
+
+### Stoper apache pour pouvoir libérer le port 80 et utiliser Nginx
+
+`sudo systemctl stop apache2`
 
 ### Installation des dépendances server
 

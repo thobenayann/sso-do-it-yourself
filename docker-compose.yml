@@ -21,7 +21,7 @@ services:
       VIRTUAL_HOST: sso-server.test
       # Avec l'image Nginx que j'utilise je dois écrire :
       VIRTUAL_PORT: 3000
-
+      SELF_SIGNED_HOST: sso-server.test
     # Si je modifie la partie server sur ma machine hote
     # Le volume va permettre de mettre à jour les fichiers dans le container
     # Attention : le volume va écraser les commandes du Dockerfile
@@ -37,6 +37,7 @@ services:
     environment:
       VIRTUAL_HOST: sso-client1.test
       VIRTUAL_PORT: 3000
+      SELF_SIGNED_HOST: sso-client1.test
     volumes:
       - ./client1/:/home/node/app
 
@@ -54,5 +55,21 @@ services:
     image: jwilder/nginx-proxy
     ports:
       - "80:80"
+      # Port à ouvrir pour le https (réservé)
+      - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./vhost.d:/etc/nginx/vhost.d
+      # volume à rajouter pour la gestion des certificats
+      - ./certs:/etc/nginx/certs:ro
+
+# Pluggin de nginx-proxy pour faire des certificats auto signés (https)
+# ! auto signés = faux certificats (pas en prod)
+# en prod on utiliserait plutôt letsencrypt
+# Self-signed certificates manager for nginx-proxy
+  ss-proxy-companion:
+    image: sebastienheyd/self-signed-proxy-companion
+    container_name: ss-proxy-companion
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./certs:/etc/nginx/certs:rw
